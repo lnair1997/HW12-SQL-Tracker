@@ -1,4 +1,4 @@
-const mysql = require("mysql2/promise");
+const mysql = require("mysql");
 const inquirer = require("inquirer");
 // const cTbl = require("console.table");
 
@@ -6,13 +6,12 @@ var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "",
+  password: "C00lp3rs0n!@",
   database: "employee_db"
 });
 
 connection.connect(function (err) {
   if (err) throw err;
-
   start();
 });
 
@@ -84,6 +83,90 @@ function start() {
 };
 
 function addDepartment() {
+  inquirer.prompt({
+    type: "input",
+    name: "departmentAdd",
+    message: "What is the name of the new Department?"
+  }).then(function (answer) {
+    var query = "INSERT INTO department SET ?";
+    connection.query(query, {department_name: `${answer.departmentAdd}`}, function (err, res) {
+      if (err) throw (err);
+      start();
+    });
+  });
+};
+
+function addRole() {
+  inquirer.prompt({
+    type: "input",
+    name: "departmentAdd",
+    message: "What is the name of the new Department?"
+  }).then(function (answer) {
+    var query = "INSERT INTO department SET ?";
+    connection.query(query, {department_name: `${answer.departmentAdd}`}, function (err, res) {
+      if (err) throw (err);
+      runSearch();
+    });
+  });
+};
+
+function addEmployee() {
+  inquirer.prompt({
+    type: "input",
+    name: "departmentAdd",
+    message: "What is the name of the new Department?"
+  }).then(function (answer) {
+    var query = "INSERT INTO department SET ?";
+    connection.query(query, {department_name: `${answer.departmentAdd}`}, function (err, res) {
+      if (err) throw (err);
+      runSearch();
+    });
+  });
+};
+
+function viewDepartments() {
+  inquirer.prompt({
+    type: "input",
+    name: "departmentAdd",
+    message: "What is the name of the new Department?"
+  }).then(function (answer) {
+    var query = "INSERT INTO department SET ?";
+    connection.query(query, {department_name: `${answer.departmentAdd}`}, function (err, res) {
+      if (err) throw (err);
+      runSearch();
+    });
+  });
+};
+
+function viewRoles() {
+  inquirer.prompt({
+    type: "input",
+    name: "departmentAdd",
+    message: "What is the name of the new Department?"
+  }).then(function (answer) {
+    var query = "INSERT INTO department SET ?";
+    connection.query(query, {department_name: `${answer.departmentAdd}`}, function (err, res) {
+      if (err) throw (err);
+      runSearch();
+    });
+  });
+};
+
+function viewEmployees() {
+  inquirer.prompt({
+    type: "input",
+    name: "departmentAdd",
+    message: "What is the name of the new Department?"
+  }).then(function (answer) {
+    var query = "INSERT INTO department SET ?";
+    connection.query(query, {department_name: `${answer.departmentAdd}`}, function (err, res) {
+      if (err) throw (err);
+      runSearch();
+    });
+  });
+};
+
+function updateRole() {
   inquirer.prompt({
     type: "input",
     name: "departmentAdd",
