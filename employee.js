@@ -23,43 +23,62 @@ function start() {
     name: "startList",
     message: "What would you like to do?",
     choices: [
-      "View All",
-      "View Employees",
-      "View Roles",
+      "Add Department",
+      "Add Role",
+      "Add Employee",
       "View Departments",
-      "Add employee",
-      "Remove employee",
-      "Update employee",
-      "Update employee role",
-      "Add department",
-      "Remove department",
-      "Update department",
-      "Add role",
-      "Remove role",
-      "Update role",
+      "View Roles",
+      "View Employees",
+      "Update Employee Role",
+      "Update Manager",
+      "View Employee By Manager",
+      "Delete Department",
+      "Delete Role",
+      "Delete Employee",
+      "View Budget for Each Department",
       "Exit"
     ]
   }).then(function (answer) {
-      switch (answer.startList) {
-        case "Find songs by artist":
-          artistSearch();
-          break;
-
-        case "Find all artists who appear more than once":
-          multiSearch();
-          break;
-
-        case "Find data within a specific range":
-          rangeSearch();
-          break;
-
-        case "Search for a specific song":
-          songSearch();
-          break;
-
-        case "exit":
-          connection.end();
-          break;
-      }
-    });
-}
+    switch (answer.startList) {
+      case "Add Department":
+        addDepartment();
+        break;
+      case "Add Role":
+        addRole();
+        break;
+      case "Add Employee":
+        addEmployee();
+        break;
+      case "View Departments":
+        viewDepartments();
+        break;
+      case "View Roles":
+        viewRoles();
+        break;
+      case "View Employees":
+        viewEmployees();
+        break;
+      case "Update Employee Role":
+        updateRole();
+        break;
+      case "Update Manager":
+        // updateManager();
+        break;
+      case "View Employee By Manager":
+        // viewEmployeeByManager()
+        break;
+      case "Delete Department":
+        // deleteDepartment();
+        break;
+      case "Delete Role":
+        // deleteRole();
+        break;
+      case "Delete Employee":
+        // deleteEmployee();
+        break;
+      case "View Budget for Each Department":
+        // viewBudget();
+        break;
+    };
+  });
+};
