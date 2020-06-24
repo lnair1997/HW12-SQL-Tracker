@@ -82,3 +82,17 @@ function start() {
     };
   });
 };
+
+function addDepartment() {
+  inquirer.prompt({
+    type: "input",
+    name: "departmentAdd",
+    message: "What is the name of the new Department?"
+  }).then(function (answer) {
+    var query = "INSERT INTO department SET ?";
+    connection.query(query, {department_name: `${answer.departmentAdd}`}, function (err, res) {
+      if (err) throw (err);
+      runSearch();
+    });
+  });
+};
