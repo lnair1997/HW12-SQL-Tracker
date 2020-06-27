@@ -136,47 +136,73 @@ function addRole() {
 };
 
 function addEmployee() {
-    inquirer.prompt([{
-      type: "input",
-      name: "firstname",
-      message: "What is the employee's first name?",
-    },
+  inquirer.prompt([{
+    type: "input",
+    name: "firstname",
+    message: "What is the employee's first name?",
+  },
+  {
+    type: "input",
+    name: "lastname",
+    message: "What is the employee's last name?"
+  },
+  {
+    type: "list",
+    name: "roleId",
+    message: "What role will this employee fill?",
+    choices: [1, 2, 3, 4, 5]
+  }]).then(function (answer) {
+    let query = "INSERT INTO employees SET ?";
+    connection.query(query, { first_name: `${answer.firstname}`, last_name: `${answer.lastname}`, role_id: `${answer.roleId}` }, function (err, res) {
+      if (err) throw err;
+      console.log("New Employee has been added!");
+      start();
+    });
+  });
+};
+
+function updateRole() {
+  const employee = [];
+  const roles = [];
+  const updateEmployee = [
     {
-      type: "input",
-      name: "lastname",
-      message: "What is the employee's last name?"
+      type: "list",
+      message: "Which Employee would you like to update?",
+      choices: employee,
+      name: "changeEmployee"
     },
     {
       type: "list",
-      name: "roleId",
-      message: "What role will this employee fill?",
-      choices: [1, 2, 3, 4, 5]
-    }]).then(function (answer) {
-      let query = "INSERT INTO employees SET ?";
-      connection.query(query, { first_name: `${answer.firstname}`, last_name: `${answer.lastname}`, role_id: `${answer.roleId}` }, function (err, res) {
-        if (err) throw err;
-        console.log("New Employee has been added!");
-        start();
-      });
-    })
-  };
+      message: "What is their new role?",
+      choices: roles,
+      name: "roleChange"
+    }
+  ];
 
-  function updateRole() {
-    connection.query("SELECT id, first_name, last_name, role_id FROM employees", function (err, res) {
-      if (err) throw err
-
-      let listEmployee = [];
-      for (i = 0; i < res.length; i++) {
-        var employee = {
-            name: `${employeeList[i].first_name} ${employeeList[i].last_name}, Current Role Id: ${employeeList[i].role_id} `,
-            value: {
-                id: `${employeeList[i].id}`,
-                first_name: `${employeeList[i].first_name}`,
-                last_name: `${employeeList[i].last_name}`,
-                role_id: `${employeeList[i].role_id}`
-            }
-        }
-        listAll.push(employee)
+  connection.query("SELECT * FROM roles", function (err, res) {
+    if (err) throw err;
+    for (let i = 0; i < res.length; i++) {
+      roles.push(res[i].title);
     }
   });
-};
+
+  connection.query("SELECT * FROM employees", function (err, res) {
+    if (err) throw err;
+    for (let i = 0; i < res.length; i++) {
+      employee.push(res[i].first_name + " " + res[i].last_name);
+    }
+
+    inquirer.prompt(updateEmployee).then(function (res) {
+      const name = res.changeEmployee.split(" ");
+      let roleId;
+      connection.query("SELECT * FROM roles WHERE title = '" + res.roleChange + "'", function (err, res) {
+        if (err) throw err;
+        roleId = res[0].id;
+        let query = "UPDATE employees SET role_id = '" + roleId + "' WHERE first_name = '" + name[0] + "' AND last_name = '" + name[1] + "'";
+        connection.query(query, function (err, res) {
+          console.log("Employee role updated!");
+          start();
+        });
+      });
+    });
+  })};
